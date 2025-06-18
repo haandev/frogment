@@ -1,7 +1,8 @@
 {
   "name": "frogment",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
+  "files": [ "dist" ],
   "main": "./dist/frogment.cjs",
   "module": "./dist/frogment.mjs",
   "types": "./dist/frogment.d.ts",
@@ -10,7 +11,8 @@
       "require": "./dist/frogment.cjs",
       "import": "./dist/frogment.mjs"
     }
-  },  "scripts": {
+  },
+  "scripts": {
     "build": "tsup",
     "test": "vitest --run"
   },
