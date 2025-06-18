@@ -1,0 +1,16 @@
+{
+  "name": "frogment",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/frogment.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "format": "prettier . --write --ignore-unknown",
+    "lint": "eslint . --fix",
+    "test": "vitest --run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3"
+  }
+}
