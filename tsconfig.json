@@ -3,9 +3,11 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "target": "ESNext",
-    "module": "esnext",
+    "target": "ES2022",
+    "module": "ES2022",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
   }
 }

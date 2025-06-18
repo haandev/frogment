@@ -2,14 +2,20 @@
   "name": "frogment",
   "version": "1.0.0",
   "type": "module",
-  "main": "./src/frogment.ts",
-  "scripts": {
-    "build": "tsc --build",
-    "format": "prettier . --write --ignore-unknown",
-    "lint": "eslint . --fix",
+  "main": "./dist/frogment.cjs",
+  "module": "./dist/frogment.mjs",
+  "types": "./dist/frogment.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/frogment.cjs",
+      "import": "./dist/frogment.mjs"
+    }
+  },  "scripts": {
+    "build": "tsup",
     "test": "vitest --run"
   },
   "devDependencies": {
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.3"
   }

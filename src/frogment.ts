@@ -1,16 +1,18 @@
 export type TaggedLiteral = [TemplateStringsArray, ...any[]]
 export type Stringify = (value: any) => string
 export type Mergeable = TaggedLiteral | any
+const isArray = <T extends unknown>(arr: T): arr is T extends any[] ? T : never =>
+  Array.isArray(arr)
 const isMergeableArray = (arr: any): arr is Mergeable[] =>
-  Array.isArray(arr) && !isTaggedLiteral(arr)
+  isArray(arr) && !isTaggedLiteral(arr)
 const isTemplateStringsArray = (value: any): value is TemplateStringsArray =>
-  Array.isArray(value) &&
+  isArray(value) &&
   'raw' in value &&
-  Array.isArray(value.raw) &&
+  isArray(value.raw) &&
   value.raw.length === value.length
 
 const isTaggedLiteral = (arg: any): arg is TaggedLiteral =>
-  arg instanceof Array &&
+  isArray(arg) &&
   arg.length > 0 &&
   isTemplateStringsArray(arg[0]) &&
   arg[0].length === arg.length
@@ -51,11 +53,7 @@ const flattenfrogments = (input: TaggedLiteral): TaggedLiteral => {
 
     if (i < values.length && isTaggedLiteral(currentValue)) {
       const [nestedStrings, ...nestedValues] = flattenfrogments(currentValue)
-
-      // string + first of nested
       currentString += nestedStrings[0]
-
-      // string merge burada yapılır
       if (flatStrings.length === 0) {
         flatStrings.push(currentString)
       } else {
@@ -72,7 +70,6 @@ const flattenfrogments = (input: TaggedLiteral): TaggedLiteral => {
 
       flatValues.push(...nestedValues)
     } else {
-      // string merge burada yapılır
       if (flatStrings.length === 0) {
         flatStrings.push(currentString)
       } else {
@@ -81,23 +78,12 @@ const flattenfrogments = (input: TaggedLiteral): TaggedLiteral => {
 
       if (i < values.length) {
         flatValues.push(currentValue)
-        flatStrings.push('') // her value sonrası bir string gerekir
+        flatStrings.push('')
       }
     }
   }
 
-  // Guarantee: strings.length === values.length + 1
-  if (flatStrings.length !== flatValues.length + 1) {
-    throw new Error(
-      `Invariant broken: strings(${flatStrings.length}) !== values(${flatValues.length}) + 1`,
-    )
-  }
-
-  const stringsObj = Object.assign([...flatStrings], {
-    raw: [...flatStrings],
-  })
-
-  return [stringsObj, ...flatValues]
+  return createTaggedLiteral(flatStrings, flatStrings, flatValues)
 }
 const concatfrogments = (...frogments: Mergeable[]): TaggedLiteral => {
   const resultStrings = ['']

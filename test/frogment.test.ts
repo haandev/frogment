@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import frogment from '../src/frogments'
+import frogment from '../src/frogment'
 
 const mock = (strings: TemplateStringsArray, ...args: any[]) => {
   return [strings, ...args]
