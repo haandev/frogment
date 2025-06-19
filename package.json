@@ -1,6 +1,6 @@
 {
   "name": "frogment",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "type": "module",
   "files": [ "dist" ],
   "repository": {
@@ -12,15 +12,8 @@
   "license": "MIT",
   "homepage": "https://github.com/haandev/frogment",
   "description": "Frogment a tool for build literal templates from fragments",
-  "main": "./dist/frogment.cjs",
-  "module": "./dist/frogment.mjs",
+  "main": "./dist/frogment.js",
   "types": "./dist/frogment.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/frogment.cjs",
-      "import": "./dist/frogment.mjs"
-    }
-  },
   "scripts": {
     "build": "tsup",
     "test": "vitest --run"
