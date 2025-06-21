@@ -211,3 +211,34 @@ it('should dump allow frogment syntax', () => {
   const result = frogment.dump(frogment`SELECT * FROM users WHERE id = ${1}`)
   expect(result).toEqual('SELECT * FROM users WHERE id = 1')
 })
+it('should dump with custom stringify function', () => {
+  const user = {
+    state: 'active',
+    value: 1
+  }
+  const stringify = (value:any) => {
+    return typeof value === 'object' && "value" in value ? String(user.value) : String(value)
+  }
+  const result = frogment.createDump(stringify)
+  expect(result.dump(frogment`SELECT * FROM users WHERE id = ${user}`)).toEqual(
+    'SELECT * FROM users WHERE id = 1',
+  )
+})
+it('should dump with custom stringify function on complex nested frogments', () => {
+  const user = {
+    state: 'active',
+    value: 1,
+  }
+  const company = {
+    state: 'active',
+    value: 2,
+  }
+  const companyFrogment = frogment`${company}`
+  const stringify = (value:any) => {
+    return typeof value === 'object' && "value" in value ? String(value.value) : String(value)
+  }
+  const result = frogment.createDump(stringify)
+  expect(result.dump(frogment`SELECT * FROM users WHERE id = ${user} AND company = ${companyFrogment}`)).toEqual(
+    'SELECT * FROM users WHERE id = 1 AND company = 2',
+  )
+})
